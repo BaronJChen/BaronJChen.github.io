@@ -105,7 +105,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ovbtcc6ph.bkt.clouddn.com/shadowsocks%E9%85%8D%E7%BD%AE.png">
 <meta property="og:image" content="http://ovbtcc6ph.bkt.clouddn.com/shadowsocks%E5%B1%80%E5%9F%9F%E7%BD%91%E9%85%8D%E7%BD%AE.png">
-<meta property="og:updated_time" content="2017-08-27T08:12:27.000Z">
+<meta property="og:updated_time" content="2017-08-27T08:15:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos上使用kubeadm安装k8s 1.6">
 <meta name="twitter:description" content="去年有一个项目用上了k8s(kubernetes简称)，个人对此非常感兴趣，想搭建集群的，结果等到了现在，不过好歹也是成功搭上了，下面开始教程。  本文将从以下几个部分来介绍安装  前期准备，主要包括系统的配置和一些软件的安装 k8s安装 k8s配置  说明 docker版本：1.12 k8s版本：1.6.7 工作机（在这台机器上连接到k8s集群节点进行配置，并且提供代理给各个节点使用）ip：1">
@@ -322,22 +322,21 @@
 <li>docker版本：1.12</li>
 <li>k8s版本：1.6.7</li>
 <li>工作机（在这台机器上连接到k8s集群节点进行配置，并且提供代理给各个节点使用）<br>ip：192.168.28.99<br>系统：windows10</li>
-<li>集群<br>系统：都是centos7.3<br>主节点，ip：192.168.28.10，hostname: master<br>子节点一，ip：192.168.28.11，hostname: node1<br>子节点二，ip：192.168.28.12，hostname: node2</li>
-</ol>
-<h1 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h1><blockquote>
+<li>集群<br>系统：都是centos7.3<br>主节点，ip：192.168.28.10，hostname: master<br>子节点一，ip：192.168.28.11，hostname: node1<br>子节点二，ip：192.168.28.12，hostname: node2 <h1 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h1><blockquote>
 <p>Shadowssock安装  </p>
 </blockquote>
-<h5 id="由于GFW的原因，国内用于使用k8s还是最好配上代理。如果使用ping-gcr-io可以成功ping通的，就不需要代理。"><a href="#由于GFW的原因，国内用于使用k8s还是最好配上代理。如果使用ping-gcr-io可以成功ping通的，就不需要代理。" class="headerlink" title="由于GFW的原因，国内用于使用k8s还是最好配上代理。如果使用ping gcr.io可以成功ping通的，就不需要代理。"></a>由于GFW的原因，国内用于使用k8s还是最好配上代理。如果使用<code>ping gcr.io</code>可以成功ping通的，就不需要代理。</h5><ol>
-<li>从<a href="http://my.36fy.com/" target="_blank" rel="external">加速度</a>上申请一个两块一个月的使用版本，在<code>192.168.28.99</code>这台机器上安装好，并且配置好账号密码，结果如下：<br><img src="http://ovbtcc6ph.bkt.clouddn.com/shadowsocks%E9%85%8D%E7%BD%AE.png" alt="shadowsocks配置"><br>如果是工作机系统是linux，请自行去github上查找shadowsocks-qt5项目，wiki内有各个操作系统的安装说明。</li>
-<li>配置可以从局域网访问，启用系统代理当然也要勾选<br><img src="http://ovbtcc6ph.bkt.clouddn.com/shadowsocks%E5%B1%80%E5%9F%9F%E7%BD%91%E9%85%8D%E7%BD%AE.png" alt="访问配置"></li>
-<li>打开chrome，看看是否能够访问google。如果不行，好好看下加速度官网教程。</li>
-<li>在集群各个节点上使用<code>telnet 192.168.28.99 1080</code>测试连通性。如果telnet未安装，使用yum install telnet安装。正确结果如下：<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[master@master ~]$ telnet 192.168.28.99 1080</div><div class="line">Trying 192.168.28.99...</div><div class="line">Connected to 192.168.28.99.</div><div class="line">Escape character is '^]'.</div></pre></td></tr></table></figure>
 </li>
 </ol>
+<h5 id="由于GFW的原因，国内用于使用k8s还是最好配上代理。如果使用ping-gcr-io可以成功ping通的，就不需要代理。"><a href="#由于GFW的原因，国内用于使用k8s还是最好配上代理。如果使用ping-gcr-io可以成功ping通的，就不需要代理。" class="headerlink" title="由于GFW的原因，国内用于使用k8s还是最好配上代理。如果使用ping gcr.io可以成功ping通的，就不需要代理。"></a>由于GFW的原因，国内用于使用k8s还是最好配上代理。如果使用<code>ping gcr.io</code>可以成功ping通的，就不需要代理。</h5><p>（1）. 从<a href="http://my.36fy.com/" target="_blank" rel="external">加速度</a>上申请一个两块一个月的使用版本，在<code>192.168.28.99</code>这台机器上安装好，并且配置好账号密码，结果如下：<br><img src="http://ovbtcc6ph.bkt.clouddn.com/shadowsocks%E9%85%8D%E7%BD%AE.png" alt="shadowsocks配置"></p>
+<p>如果是工作机系统是linux，请自行去github上查找shadowsocks-qt5项目，wiki内有各个操作系统的安装说明。<br>（2）. 配置可以从局域网访问，启用系统代理当然也要勾选。</p>
+<p>  <img src="http://ovbtcc6ph.bkt.clouddn.com/shadowsocks%E5%B1%80%E5%9F%9F%E7%BD%91%E9%85%8D%E7%BD%AE.png" alt="访问配置"></p>
+<p>（3）. 打开chrome，看看是否能够访问google。如果不行，好好看下加速度官网教程。</p>
+<p>（4）. 在集群各个节点上使用<code>telnet 192.168.28.99 1080</code>测试连通性。如果telnet未安装，使用<code>yum install telnet</code>安装。正确结果如下：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[master@master ~]$ telnet 192.168.28.99 1080</div><div class="line">Trying 192.168.28.99...</div><div class="line">Connected to 192.168.28.99.</div><div class="line">Escape character is '^]'.</div></pre></td></tr></table></figure></p>
 <p>还有一种测试方式，使用以下命令，这样是直接使用代理访问google.com，如果不能把网页下载下来，证明代理配置有问题。最后，记得使用<code>unset http_proxy</code>取消系统级代理配置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">[master@master ~]$ export http_proxy=http://192.168.28.99:1080</div><div class="line">[master@master ~]$ wget google.com</div><div class="line">--2017-08-27 14:50:00--  http://google.com/</div><div class="line">Connecting to 192.168.28.99:1080... connected.</div><div class="line">Proxy request sent, awaiting response... 301 Moved Permanently</div><div class="line">Location: http://www.google.com/ [following]</div><div class="line">--2017-08-27 14:50:00--  http://www.google.com/</div><div class="line">Connecting to 192.168.28.99:1080... connected.</div><div class="line">Proxy request sent, awaiting response... 200 OK</div><div class="line">Length: unspecified [text/html]</div><div class="line">Saving to: ‘index.html.1’</div><div class="line"></div><div class="line">    [ &lt;=&gt;       ] 10,449      --.-K/s   in 0.001s</div><div class="line"></div><div class="line">2017-08-27 14:50:00 (19.1 MB/s) - ‘index.html.1’ saved [10449]</div><div class="line"></div><div class="line">[master@master ~]$unset http_proxy</div></pre></td></tr></table></figure></p>
 <hr>
+<p><br></p>
 <blockquote>
-<p>节点系统配置（这边的系统配置要在所有k8s节点上做）</p>
+<p>节点系统配置（系统配置要在所有k8s节点上）</p>
 </blockquote>
 <h4 id="1-关闭防火墙，命令sudo-systemctl-disable-firewalld"><a href="#1-关闭防火墙，命令sudo-systemctl-disable-firewalld" class="headerlink" title="1. 关闭防火墙，命令sudo systemctl disable firewalld"></a>1. 关闭防火墙，命令<code>sudo systemctl disable firewalld</code></h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[master@master ~]$ sudo systemctl disable firewalld</div><div class="line">[sudo] password for master:</div><div class="line">[master@master ~]$</div></pre></td></tr></table></figure>
 <h4 id="2-关闭selinux，命令sudo-setenforce-0"><a href="#2-关闭selinux，命令sudo-setenforce-0" class="headerlink" title="2. 关闭selinux，命令sudo setenforce 0"></a>2. 关闭selinux，命令<code>sudo setenforce 0</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[master@master ~]$ sudo setenforce 0</div><div class="line">setenforce: SELinux is disabled</div></pre></td></tr></table></figure>
@@ -349,7 +348,7 @@
 <p>（4）检测下docker配置是否成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[root@master master]# docker pull busybox</div><div class="line">Using default tag: latest</div><div class="line">Trying to pull repository docker.io/library/busybox ...</div><div class="line">latest: Pulling from docker.io/library/busybox</div><div class="line"></div><div class="line">add3ddb21ede: Pull complete</div><div class="line">Digest: sha256:c6272680ceef5182d61ba71e34375cb8f86cfe884051b7955005647116990106</div><div class="line">[root@master master]#</div></pre></td></tr></table></figure></p>
 <p>（5）修改网络配置（也可能是防火墙，或者是桥接配置）<br>使用<code>vim /etc/sysctl.d/k8s.conf</code>创建文件，输入以下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">net.bridge.bridge-nf-call-ip6tables = 1</div><div class="line">net.bridge.bridge-nf-call-iptables = 1</div></pre></td></tr></table></figure></p>
 <p>使用<code>sysctl -p /etc/sysctl.d/k8s.conf</code>使之生效。<br>（6）更改hostname<br>使用<code>vim /etc/hostname</code>编辑文件，将hostname（matser或node1或node2）加入。<br>（7）添加hosts<br>使用<code>vim /etc/hosts</code>打开文件，添加内容为如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</div><div class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</div><div class="line">192.168.28.10 master</div><div class="line">192.168.28.11 node1</div><div class="line">192.168.28.12 node2</div></pre></td></tr></table></figure></p>
-<p>至此，配置环节结束，下面开始k8s正式安装过程。国内用户请一定要注意<strong>代理</strong>的配置。</p>
+<p>至此，配置环节结束，下面开始k8s正式安装过程。国内用户请一定要注意<strong>代理</strong>的配置。<br><br><br><br></p>
 <hr>
 <h1 id="安装k8s"><a href="#安装k8s" class="headerlink" title="安装k8s"></a>安装k8s</h1><blockquote>
 <p>添加k8s的repo源</p>
@@ -372,7 +371,6 @@
 <p>(2) master node参与工作负载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl taint nodes --all  node-role.kubernetes.io/master-</div></pre></td></tr></table></figure></p>
 <p>(3) 安装dashboard<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">wget http://ovbtcc6ph.bkt.clouddn.com/dashboard.zip</div><div class="line">unzip dashboard.zip</div><div class="line">cd dashboard</div><div class="line">kubectl create -f ./</div></pre></td></tr></table></figure></p>
 <p>(4) 访问dashboard<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl proxy --accept-hosts=&apos;.*&apos; --address=192.168.28.10 &amp;</div></pre></td></tr></table></figure></p>
-<p>这样应该就可以通过浏览器访问’192.168.28.10:800/ui’了。<br>(4) 访问dashboard<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl proxy --accept-hosts=&apos;.*&apos; --address=192.168.28.10 &amp;</div></pre></td></tr></table></figure></p>
 <p>这样应该就可以通过浏览器访问’192.168.28.10:800/ui’了。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>至此，文章结束。本文参考<a href="http://blog.frognew.com/2017/04/kubeadm-install-kubernetes-1.6.html#%E4%BD%BFmaster-node%E5%8F%82%E4%B8%8E%E5%B7%A5%E4%BD%9C%E8%B4%9F%E8%BD%BD" target="_blank" rel="external">这篇文章</a>，主要就是增加了代理部分。但是没有这个代理，确是寸步难行。<br>如果我有什么没说明白导致大家不清楚的，可以加我qq：478126940来联系我。</p>
 
