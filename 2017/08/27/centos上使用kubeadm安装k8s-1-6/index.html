@@ -79,7 +79,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="k8s 运维," />
 
 
 
@@ -95,16 +95,21 @@
 
 
 
-<meta name="description" content="I am an asshole">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Baron的小站">
-<meta property="og:url" content="http://www.ilovezyj.com/index.html">
+<meta name="description" content="去年有一个项目用上了k8s(kubernetes简称)，个人对此非常感兴趣，想搭建集群的，结果等到了现在，不过好歹也是成功搭上了，下面开始教程。  本文将从以下几个部分来介绍安装  前期准备，主要包括系统的配置和一些软件的安装 k8s安装 k8s配置  说明 docker版本：1.12 k8s版本：1.6.7 工作机（在这台机器上连接到k8s集群节点进行配置，并且提供代理给各个节点使用）ip：1">
+<meta name="keywords" content="k8s 运维">
+<meta property="og:type" content="article">
+<meta property="og:title" content="centos上使用kubeadm安装k8s 1.6">
+<meta property="og:url" content="http://www.ilovezyj.com/2017/08/27/centos上使用kubeadm安装k8s-1-6/index.html">
 <meta property="og:site_name" content="Baron的小站">
-<meta property="og:description" content="I am an asshole">
+<meta property="og:description" content="去年有一个项目用上了k8s(kubernetes简称)，个人对此非常感兴趣，想搭建集群的，结果等到了现在，不过好歹也是成功搭上了，下面开始教程。  本文将从以下几个部分来介绍安装  前期准备，主要包括系统的配置和一些软件的安装 k8s安装 k8s配置  说明 docker版本：1.12 k8s版本：1.6.7 工作机（在这台机器上连接到k8s集群节点进行配置，并且提供代理给各个节点使用）ip：1">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ovbtcc6ph.bkt.clouddn.com/shadowsocks%E9%85%8D%E7%BD%AE.png">
+<meta property="og:image" content="http://ovbtcc6ph.bkt.clouddn.com/shadowsocks%E5%B1%80%E5%9F%9F%E7%BD%91%E9%85%8D%E7%BD%AE.png">
+<meta property="og:updated_time" content="2017-08-27T08:03:19.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Baron的小站">
-<meta name="twitter:description" content="I am an asshole">
+<meta name="twitter:title" content="centos上使用kubeadm安装k8s 1.6">
+<meta name="twitter:description" content="去年有一个项目用上了k8s(kubernetes简称)，个人对此非常感兴趣，想搭建集群的，结果等到了现在，不过好歹也是成功搭上了，下面开始教程。  本文将从以下几个部分来介绍安装  前期准备，主要包括系统的配置和一些软件的安装 k8s安装 k8s配置  说明 docker版本：1.12 k8s版本：1.6.7 工作机（在这台机器上连接到k8s集群节点进行配置，并且提供代理给各个节点使用）ip：1">
+<meta name="twitter:image" content="http://ovbtcc6ph.bkt.clouddn.com/shadowsocks%E9%85%8D%E7%BD%AE.png">
 
 
 
@@ -134,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="http://www.ilovezyj.com/"/>
+  <link rel="canonical" href="http://www.ilovezyj.com/2017/08/27/centos上使用kubeadm安装k8s-1-6/"/>
 
 
 
 
 
-  <title>Baron的小站</title>
+  <title>centos上使用kubeadm安装k8s 1.6 | Baron的小站</title>
   
 
 
@@ -159,8 +164,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -223,9 +227,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -255,9 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/27/centos上使用kubeadm安装k8s-1-6/" itemprop="url">centos上使用kubeadm安装k8s 1.6</a></h1>
+          <h1 class="post-title" itemprop="name headline">centos上使用kubeadm安装k8s 1.6</h1>
         
 
         <div class="post-meta">
@@ -307,9 +309,7 @@
       
 
       
-        
-          
-            <blockquote>
+        <blockquote>
 <p>去年有一个项目用上了k8s(kubernetes简称)，个人对此非常感兴趣，想搭建集群的，结果等到了现在，不过好歹也是成功搭上了，下面开始教程。</p>
 </blockquote>
 <p>本文将从以下几个部分来介绍安装</p>
@@ -375,8 +375,6 @@
 <p>这样应该就可以通过浏览器访问’192.168.28.10:800/ui’了。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>至此，文章结束。本文参考<a href="http://blog.frognew.com/2017/04/kubeadm-install-kubernetes-1.6.html#%E4%BD%BFmaster-node%E5%8F%82%E4%B8%8E%E5%B7%A5%E4%BD%9C%E8%B4%9F%E8%BD%BD" target="_blank" rel="external">这篇文章</a>，主要就是增加了代理部分。但是没有这个代理，确是寸步难行。<br>如果我有什么没说明白导致大家不清楚的，可以加我qq：478126940来联系我。</p>
 
-          
-        
       
     </div>
     
@@ -391,133 +389,36 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.ilovezyj.com/2017/08/26/Hello-World-as-usual/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Baron Chen">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baron的小站">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/26/Hello-World-as-usual/" itemprop="url">Hello World as usual</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-26T04:31:15+08:00">
-                2017-08-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/k8s-运维/" rel="tag"># k8s 运维</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="I-heard-about-hexo-long-time-ago"><a href="#I-heard-about-hexo-long-time-ago" class="headerlink" title="I heard about hexo long time ago."></a>I heard about hexo long time ago.</h1><h1 id="But-I-haven’t-used-it-until-Today"><a href="#But-I-haven’t-used-it-until-Today" class="headerlink" title="But I haven’t used it until Today."></a>But I haven’t used it until Today.</h1><h1 id="What-a-pity"><a href="#What-a-pity" class="headerlink" title="What a pity."></a>What a pity.</h1>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/26/Hello-World-as-usual/" rel="next" title="Hello World as usual">
+                <i class="fa fa-chevron-left"></i> Hello World as usual
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
       
     </footer>
   </div>
@@ -527,10 +428,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -538,6 +440,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -558,8 +464,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -614,6 +529,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前期准备"><span class="nav-number">2.</span> <span class="nav-text">前期准备</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#由于GFW的原因，国内用于使用k8s还是最好配上代理。如果使用ping-gcr-io可以成功ping通的，就不需要代理。"><span class="nav-number">2.0.0.0.1.</span> <span class="nav-text">由于GFW的原因，国内用于使用k8s还是最好配上代理。如果使用ping gcr.io可以成功ping通的，就不需要代理。</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-关闭防火墙，命令sudo-systemctl-disable-firewalld"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">1. 关闭防火墙，命令sudo systemctl disable firewalld</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-关闭selinux，命令sudo-setenforce-0"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">2. 关闭selinux，命令sudo setenforce 0</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-给yum上代理"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">3. 给yum上代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-安装docker，并上代理"><span class="nav-number">2.0.0.4.</span> <span class="nav-text">4. 安装docker，并上代理</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装k8s"><span class="nav-number">3.</span> <span class="nav-text">安装k8s</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -730,10 +661,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-  
+
 
   
 
